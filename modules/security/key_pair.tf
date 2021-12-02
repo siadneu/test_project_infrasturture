@@ -1,0 +1,4 @@
+resource "aws_key_pair" "key_pair" {
+  key_name = "test_project_bastion"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC+co4iwDf5pagRGktbWv0U5smUTJBI7H6P2wVk6/xkBvsKSnIBxzx9SF2hOY/eiqch/eIreNQjVwsDdgDFq4jf4RT9mZL9G1wOVn8UZlRqt4VVPKG/fp3Wjeu0r1MAIOeKjgBsnTspFaMeEvSZwhQRu9xZjqvFZC3scQAZTWRBJQqYb6a8iE+l8RTRKfOnZm1zeW7fVDf5G2eBvvR9kXoGOyY9+gzvG144at8OWabboIqnKJgLW7BLqDEHdqTmeqM7NwWADp20RPbP0o7+tS7AzQuHVN/45MV6nJt3HhOJRbQDvWnOKYqxK9qN9YS3c2gkjDpmJSHy+ezTKgK4zaox test_project_bastion"
+}
