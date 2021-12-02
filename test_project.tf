@@ -23,3 +23,7 @@ module "security" {
   my_cidr = var.my_cidr
   bastion_ip = module.instances.bastion_ip
 }
+
+module "s3" {
+  source = "./modules/s3"
+}
