@@ -1,7 +1,7 @@
 resource "aws_security_group" "bastion" {
   name = "test-project-bastion-security-group"
   vpc_id = var.vpc_id
-  description = "web and ssh from bastion"
+  description = "test-project-bastion-security-group"
   ingress {
     from_port = 22
     protocol  = "tcp"

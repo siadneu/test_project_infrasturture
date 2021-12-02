@@ -8,3 +8,7 @@ output "bastion_security_group_id" {
 output "main_security_group_id" {
   value = aws_security_group.http_private-ssh_8080.id
 }
+
+output "jenkins_iam_role" {
+  value = aws_iam_role.jenkins_role.name
+}

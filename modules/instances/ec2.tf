@@ -15,6 +15,7 @@ resource "aws_instance" "jenkins" {
   key_name = var.key_pair
   subnet_id = var.subnet_ids[0]
   vpc_security_group_ids = [var.main_security_group_id]
+  iam_instance_profile = var.jenkins_iam_role
   tags = {
     Name = "jenkins"
   }

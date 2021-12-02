@@ -13,6 +13,7 @@ module "instances" {
   key_pair = module.security.key_pair
   bastion_security_group_id = module.security.bastion_security_group_id
   main_security_group_id = module.security.main_security_group_id
+  jenkins_iam_role = module.security.jenkins_iam_role
 }
 
 module "security" {
