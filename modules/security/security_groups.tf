@@ -1,7 +1,7 @@
 resource "aws_security_group" "bastion" {
   name = "test-project-bastion-security-group"
   vpc_id = var.vpc_id
-  description = "test-project-bastion-security-group"
+  description = "web and ssh from bastion"
   ingress {
     from_port = 22
     protocol  = "tcp"
@@ -20,7 +20,7 @@ resource "aws_security_group" "bastion" {
 resource "aws_security_group" "http_private-ssh_8080" {
   name = "launch-wizard-1"
   vpc_id = var.vpc_id
-  description = "web and ssh from bastion"
+  description = "launch-wizard-1 created 2021-11-26T13:49:18.572+03:00"
   ingress {
     from_port = 22
     protocol  = "tcp"
