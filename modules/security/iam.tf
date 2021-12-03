@@ -52,4 +52,7 @@ resource "aws_iam_policy" "test_project_s3_bucket_rw" {
           }
       ]
   })
+  tags = {
+    project = "test_project"
+  }
 }

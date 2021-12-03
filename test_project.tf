@@ -9,7 +9,10 @@ module "network" {
 module "instances" {
   source = "./modules/instances"
 
-  subnet_ids = [module.network.first_public_network_id]
+  subnet_ids = [module.network.first_public_network_id,
+                module.network.second_public_network_id,
+                module.network.first_private_network_id,
+                module.network.second_private_network_id]
   key_pair = module.security.key_pair
   bastion_security_group_id = module.security.bastion_security_group_id
   main_security_group_id = module.security.main_security_group_id
@@ -26,4 +29,8 @@ module "security" {
 
 module "s3" {
   source = "./modules/s3"
+}
+
+module "containers" {
+  source = "./modules/containers"
 }
