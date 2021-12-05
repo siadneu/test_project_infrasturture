@@ -1,7 +1,3 @@
-provider "aws" {
-  region = "us-east-2"
-}
-
 module "network" {
   source = "./modules/network"
 }
@@ -33,4 +29,7 @@ module "s3" {
 
 module "containers" {
   source = "./modules/containers"
+  docker_tags = ["backend", "frontend"]
+  application_git_repository = "git@github.com:siadneu/test_project.git"
+  build_context = var.build_context
 }
