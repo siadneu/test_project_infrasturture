@@ -13,6 +13,8 @@ module "instances" {
   bastion_security_group_id = module.security.bastion_security_group_id
   main_security_group_id = module.security.main_security_group_id
   jenkins_iam_role = module.security.jenkins_iam_role
+  vpc_id = module.network.vpc_id
+  http_security_group = module.security.http_security_group
 }
 
 module "security" {
@@ -32,4 +34,5 @@ module "containers" {
   docker_tags = ["backend", "frontend"]
   application_git_repository = "git@github.com:siadneu/test_project.git"
   build_context = var.build_context
+  ecs_execution_role = module.security.ecs_execution_role_arn
 }

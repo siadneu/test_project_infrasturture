@@ -12,3 +12,8 @@ variable "build_context" {
   description = "Absolute path to directory with application"
   type = string
 }
+
+variable "ecs_execution_role" {
+  description = "role for task execution"
+  type = string
+}

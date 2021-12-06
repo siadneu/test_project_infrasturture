@@ -16,6 +16,15 @@ variable "main_security_group_id" {
   type = string
 }
 
+variable "http_security_group" {
+  type = string
+}
+
 variable "jenkins_iam_role" {
+  type = string
+}
+
+variable "vpc_id" {
+  description = "vpc id"
   type = string
 }
