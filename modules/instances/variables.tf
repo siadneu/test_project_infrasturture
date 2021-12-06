@@ -28,3 +28,8 @@ variable "vpc_id" {
   description = "vpc id"
   type = string
 }
+
+variable "targets" {
+  description = "load balancer target groups"
+  type = list(string)
+}

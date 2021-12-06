@@ -15,6 +15,7 @@ module "instances" {
   jenkins_iam_role = module.security.jenkins_iam_role
   vpc_id = module.network.vpc_id
   http_security_group = module.security.http_security_group
+  targets = ["backend", "frontend"]
 }
 
 module "security" {
