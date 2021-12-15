@@ -38,6 +38,10 @@ resource "aws_launch_configuration" "as_config" {
   vpc_classic_link_security_groups = []
   associate_public_ip_address = false
   ebs_optimized = false
+  user_data = <<EOF
+echo 'ECS_CLUSTER=${var.cluster_name}' >> /etc/ecs/ecs.config
+echo 'ECS_DISABLE_PRIVILEGED=true' >> /etc/ecs/ecs.config
+EOF
   root_block_device {
     volume_size = 30
     volume_type = "gp2"

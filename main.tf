@@ -1,5 +1,9 @@
 module "network" {
   source = "./modules/network"
+  domain_name = var.domain_name
+  alb_name = module.instances.alb_name
+  alb_zone_id = module.instances.alb_zone_id
+  availability_zones = data.aws_availability_zones.zones.names
 }
 
 module "instances" {
@@ -16,6 +20,7 @@ module "instances" {
   vpc_id = module.network.vpc_id
   http_security_group = module.security.http_security_group
   targets = ["backend", "frontend"]
+  cluster_name = module.containers.cluster_name
 }
 
 module "security" {
@@ -36,4 +41,12 @@ module "containers" {
   application_git_repository = "git@github.com:siadneu/test_project.git"
   build_context = var.build_context
   ecs_execution_role = module.security.ecs_execution_role_arn
+  ecs_service_role = module.security.ecs_service_role_arn
+  alb_backend_target_group = module.instances.backend_target_group
+  alb_frontend_target_group = module.instances.frontend_target_group
+  autoscaling_group_arn = module.instances.autoscaling_group_arn
+}
+
+data "aws_availability_zones" "zones" {
+  state = "available"
 }

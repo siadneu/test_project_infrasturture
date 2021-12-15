@@ -7,3 +7,12 @@ variable "build_context" {
   description = "Absolute path to directory with application"
   type = string
 }
+
+variable "domain_name" {
+  type = string
+}
+
+variable "region" {
+  description = "aws availability zone"
+  type = string
+}

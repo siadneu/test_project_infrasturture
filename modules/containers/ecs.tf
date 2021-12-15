@@ -6,76 +6,56 @@ resource "aws_ecs_cluster" "test-project" {
   }
 }
 
-resource "aws_ecs_task_definition" "frontend" {
-  family                = "fronyend"
-  network_mode = "bridge"
-  requires_compatibilities = ["EC2"]
-  container_definitions = <<TASK_DEFINITION
-    [{
-      "portMappings": [
-        {
-          "hostPort": 80,
-          "protocol": "tcp",
-          "containerPort": 80
-        }
-      ],
-      "cpu": 0,
-      "environment": [
-        {
-          "name": "BACKEND_URL",
-          "value": "http://api.siadneuihar.click"
-        }
-      ],
-      "mountPoints": [],
-      "memory": 256,
-      "volumesFrom": [],
-      "image": "${docker_registry_image.TestProjectImages["frontend"].name}",
-      "name": "frontend"
-    }
-  ]
-  TASK_DEFINITION
+resource "aws_ecs_service" "backend" {
+  name = "backend"
+  cluster = aws_ecs_cluster.test-project.arn
+  desired_count = 2
+  deployment_maximum_percent = 200
+  deployment_minimum_healthy_percent = 100
+  launch_type = "EC2"
+  scheduling_strategy = "REPLICA"
+  enable_ecs_managed_tags = true
+  health_check_grace_period_seconds = 0
+  iam_role = var.ecs_service_role
+  task_definition = "${aws_ecs_task_definition.backend.family}:${aws_ecs_task_definition.backend.revision}"
+  load_balancer {
+    container_name = "backend"
+    container_port = 80
+    target_group_arn = var.alb_backend_target_group
+  }
+  ordered_placement_strategy {
+    type = "spread"
+    field = "attribute:ecs.availability-zone"
+  }
+  ordered_placement_strategy {
+    type = "spread"
+    field = "instanceId"
+  }
 }
 
-resource "aws_ecs_task_definition" "backend" {
-  family                   = "backend"
-  task_role_arn            = var.ecs_execution_role
-  requires_compatibilities = ["EC2"]
-  container_definitions    = <<TASK_DEFINITION
-   [
-    {
-      "portMappings": [
-        {
-          "hostPort": 8080,
-          "protocol": "tcp",
-          "containerPort": 80
-        }
-      ],
-      "cpu": 0,
-      "environment": [
-        {
-          "name": "AWS_REGION_NAME",
-          "value": "us-east-2"
-        },
-        {
-          "name": "FRONTEND_URL",
-          "value": "siadneuihar.click"
-        },
-        {
-          "name": "MESSAGES_FILE",
-          "value": "messages.txt"
-        },
-        {
-          "name": "S3_BUCKET",
-          "value": "testprojectmessages"
-        }
-      ],
-      "mountPoints": [],
-      "memory": 256,
-      "volumesFrom": [],
-      "image": "${docker_registry_image.TestProjectImages["backend"].name}",
-      "essential": true,
-      "name": "backend"
-    }
-  ]
-  TASK_DEFINITION
+resource "aws_ecs_service" "frontend" {
+  name = "frontend"
+  cluster = aws_ecs_cluster.test-project.arn
+  desired_count = 2
+  deployment_maximum_percent = 200
+   deployment_minimum_healthy_percent = 100
+  launch_type = "EC2"
+  scheduling_strategy = "REPLICA"
+  enable_ecs_managed_tags = true
+  health_check_grace_period_seconds = 0
+  iam_role = var.ecs_service_role
+  task_definition = "${aws_ecs_task_definition.frontend.family}:${aws_ecs_task_definition.frontend.revision}"
+  load_balancer {
+    container_name = "frontend"
+    container_port = 80
+    target_group_arn = var.alb_frontend_target_group
+  }
+  ordered_placement_strategy {
+    type = "spread"
+    field = "attribute:ecs.availability-zone"
+  }
+  ordered_placement_strategy {
+    type = "spread"
+    field = "instanceId"
+  }
 }

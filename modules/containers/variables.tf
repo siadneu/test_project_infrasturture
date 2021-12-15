@@ -17,3 +17,22 @@ variable "ecs_execution_role" {
   description = "role for task execution"
   type = string
 }
+
+variable "ecs_service_role" {
+  description = "iam role for ecs services"
+  type = string
+}
+
+variable "alb_backend_target_group" {
+  description = "target group for backend service"
+  type = string
+}
+
+variable "alb_frontend_target_group" {
+  description = "target group for frontend service"
+  type = string
+}
+
+variable "autoscaling_group_arn" {
+  type = string
+}

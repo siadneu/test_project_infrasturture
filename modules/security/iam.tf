@@ -1,3 +1,20 @@
+resource "aws_iam_role" "ecsServiceRole" {
+  assume_role_policy = jsonencode({
+            "Version": "2008-10-17",
+            "Statement": [
+                {
+                    "Sid": "",
+                    "Effect": "Allow",
+                    "Principal": {
+                        "Service": "ecs.amazonaws.com"
+                    },
+                    "Action": "sts:AssumeRole"
+                }
+            ]
+        })
+  managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole"]
+}
+
 resource "aws_iam_role" "ecs_task_execution" {
   description           = "Allows ECS tasks to call AWS services on your behalf."
   assume_role_policy = jsonencode({
@@ -18,6 +35,7 @@ resource "aws_iam_role" "ecs_task_execution" {
 }
 
 resource "aws_iam_role" "jenkins_role" {
+  name = "jenkins"
   assume_role_policy = jsonencode( {
             "Version": "2012-10-17",
             "Statement": [

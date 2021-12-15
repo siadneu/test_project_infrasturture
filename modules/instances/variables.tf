@@ -33,3 +33,8 @@ variable "targets" {
   description = "load balancer target groups"
   type = list(string)
 }
+
+variable "cluster_name" {
+  description = "cluster_name"
+  type = string
+}
